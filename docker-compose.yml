@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  api.shortener.dev:
+    container_name: api.shortener.dev
+    image: api.shortener.dev:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_STAGE: "dev"
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+    networks:
+      - bubble
+  
+  mongo.shortener.dev:
+    container_name: mongo.shortener.dev
+    image: mongo:4.0
+    volumes:
+      - mongo_shortener_db:/data
+    ports:
+      - "27017:27017"
+    networks:
+      - bubble
+
+networks:
+  bubble:
+    external: true
+
+volumes:
+  mongo_shortener_db:
